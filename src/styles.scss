@@ -1,5 +1,6 @@
 body {
-  background-color: black;
+  // TODO: Make this play nice with BS dark mode
+  background-color: black !important;
 }
 
 .jetbrains-mono-extra-bold {

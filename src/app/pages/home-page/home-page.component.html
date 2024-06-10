@@ -1,3 +1,14 @@
 <div id="home-page">
-  <app-clock/>
+  <app-clock *ngIf="mode === 'clock'"/>
+  <app-scrolling-message *ngIf="mode === 'message'"/>
+  <div>
+    <button *ngIf="mode === 'message'" class="btn btn-outline-light" (click)="onEnableClockModeClick()">
+      <fa-icon [icon]="icons.faClock"></fa-icon>
+      <span class="ms-2">Clock</span>
+    </button>
+    <button *ngIf="mode === 'clock'" class="btn btn-outline-light" (click)="onEnableMessageModeClick()">
+      <fa-icon [icon]="icons.faBullhorn"></fa-icon>
+      <span class="ms-2">Message</span>
+    </button>
+  </div>
 </div>
