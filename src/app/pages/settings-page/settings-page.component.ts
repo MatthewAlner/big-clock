@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeftLong, faCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { UpdateService } from '../../../shared/services/update.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -17,8 +18,37 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 })
 export class SettingsPageComponent {
 
+  constructor(
+    private updateService: UpdateService,
+  ) { }
+
   public icons = {
     faArrowLeftLong,
+    faCircleDown,
   };
 
+  onUpdateApp() {
+    const serviceWorkerEnabled= this.updateService.serviceWorkerEnabled();
+
+    if (serviceWorkerEnabled) {
+      this.forceUpdate();
+    } else {
+      console.log('Service worker is not enabled');
+    }
+  }
+
+  private forceUpdate() {
+    this.updateService.forceUpdate()
+      .subscribe({
+        next: () => {
+          window.location.reload();
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          console.log('Update completed');
+        }
+      });
+  }
 }

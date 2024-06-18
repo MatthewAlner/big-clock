@@ -1,6 +1,15 @@
 body {
   // TODO: Make this play nice with BS dark mode
   background-color: black !important;
+
+  // spacing variables
+  --spacer: 1rem;
+
+  --space-1: calc(var(--spacer) * 0.25);
+  --space-2: calc(var(--spacer) * 0.5);
+  --space-3: var(--spacer);
+  --space-4: calc(var(--spacer) * 1.5);
+  --space-5: calc(var(--spacer) * 3);
 }
 
 .jetbrains-mono-extra-bold {

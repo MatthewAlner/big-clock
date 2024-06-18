@@ -1,6 +1,19 @@
 <div id="settings-page">
-    <button class="btn btn-outline-light mt-3 ms-3 back-button" ngbTooltip="Back" [routerLink]="'/home'">
-      <fa-icon [icon]="icons.faArrowLeftLong"></fa-icon>
-    </button>
-    <h1 class="mt-3">Settings</h1>
+  <button class="btn btn-outline-light mt-3 ms-3 back-button" ngbTooltip="Back" [routerLink]="'/home'">
+    <fa-icon [icon]="icons.faArrowLeftLong"></fa-icon>
+  </button>
+  <h1 class="mt-3">Settings</h1>
+
+
+  <div class="container text-center">
+    <dl class="row">
+      <dt class="col-sm-3">Update:</dt>
+      <dd class="col-sm-9">
+        <button class="btn btn-outline-light" (click)="onUpdateApp()">
+          <fa-icon [icon]="icons.faCircleDown"></fa-icon>
+          <span class="ms-2">Update</span>
+        </button>
+      </dd>
+    </dl>
+  </div>
 </div>
