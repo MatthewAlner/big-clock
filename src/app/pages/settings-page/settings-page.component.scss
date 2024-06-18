@@ -1,21 +1,15 @@
-#home-page {
+#settings-page {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  height: 100dvh;
   color: white;
 
-  .settings-button {
+  .back-button {
     position: absolute;
     top: 0;
     left: 0;
-  }
-
-  .mode-toggle {
-    position: absolute;
-    bottom: 0;
   }
 }

@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
+import { faBullhorn, faCog } from '@fortawesome/free-solid-svg-icons';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ClockComponent } from './clock/clock.component';
 import { ScrollingMessageComponent } from './scrolling-message/scrolling-message.component';
 
@@ -15,6 +17,8 @@ export type mode = 'clock' | 'message';
     ClockComponent,
     CommonModule,
     FaIconComponent,
+    NgbTooltip,
+    RouterLink,
     ScrollingMessageComponent,
   ],
   templateUrl: './home-page.component.html',
@@ -26,6 +30,7 @@ export class HomePageComponent {
   public icons = {
     faBullhorn,
     faClock,
+    faCog,
   };
 
   public onEnableClockModeClick(): void {
