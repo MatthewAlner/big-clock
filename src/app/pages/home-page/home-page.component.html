@@ -1,7 +1,7 @@
 <div id="home-page">
   <app-clock *ngIf="mode === 'clock'"/>
   <app-scrolling-message *ngIf="mode === 'message'"/>
-  <div>
+  <div class="mode-toggle mb-3">
     <button *ngIf="mode === 'message'" class="btn btn-outline-light" (click)="onEnableClockModeClick()">
       <fa-icon [icon]="icons.faClock"></fa-icon>
       <span class="ms-2">Clock</span>
