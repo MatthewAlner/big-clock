@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { VersionEvent } from '@angular/service-worker';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { faBullhorn, faCog } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { UpdateService } from '../../../shared/services/update.service';
 import { ClockComponent } from './clock/clock.component';
 import { ScrollingMessageComponent } from './scrolling-message/scrolling-message.component';
 
@@ -16,6 +19,7 @@ export type mode = 'clock' | 'message';
   imports: [
     ClockComponent,
     CommonModule,
+    CommonModule,
     FaIconComponent,
     NgbTooltip,
     RouterLink,
@@ -24,7 +28,47 @@ export type mode = 'clock' | 'message';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
+
+  constructor(
+    private updateService: UpdateService,
+    private destroyRef: DestroyRef,
+  ) { }
+
+  public isNewAppVersionAvailable = false;
+
+  public ngOnInit(): void {
+    this.updateService.updateAvailable$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((versionEvent: VersionEvent) => {
+        console.log({ versionEvent });
+
+        switch (versionEvent.type) {
+          case 'VERSION_READY':
+            // An event emitted when a new version of the app is available.
+            console.log('New version is ready');
+            break;
+          case 'VERSION_INSTALLATION_FAILED':
+            // An event emitted when the installation of a new version failed. It may be used for logging/ monitoring purposes.
+            console.log('New version failed to install');
+            this.isNewAppVersionAvailable = true;
+            break;
+          case 'VERSION_DETECTED':
+            // An event emitted when the service worker has detected a new version of the app on the server and is about to start downloading it.
+            console.log('New version detected');
+            break;
+          case 'NO_NEW_VERSION_DETECTED':
+            // An event emitted when the service worker has checked the version of the app on the server and it didn't find a new version that it doesn't have already downloaded.
+            console.log('No new version detected');
+            this.isNewAppVersionAvailable = false;
+            break;
+          default:
+            console.log('Unknown version event');
+            break;
+        }
+
+      });
+  }
 
   public mode: mode = 'clock';
   public icons = {

@@ -1,5 +1,10 @@
 <div id="home-page">
-  <button class="btn btn-outline-light mt-3 ms-3 settings-button" ngbTooltip="Settings" [routerLink]="'/settings'">
+  <button
+    class="btn mt-3 ms-3 settings-button"
+    [ngClass]="{ 'btn-outline-light': !isNewAppVersionAvailable, 'btn-outline-danger': isNewAppVersionAvailable }"
+    ngbTooltip="Settings"
+    [routerLink]="'/settings'"
+  >
     <fa-icon [icon]="icons.faCog"></fa-icon>
   </button>
   <app-clock *ngIf="mode === 'clock'"/>

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -9,6 +10,7 @@ import { UpdateService } from '../../../shared/services/update.service';
   selector: 'app-settings-page',
   standalone: true,
   imports: [
+    CommonModule,
     FaIconComponent,
     NgbTooltip,
     RouterLink
