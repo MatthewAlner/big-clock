@@ -52,10 +52,6 @@ export class HomePageComponent implements OnInit {
         if (versionEvent.type === 'VERSION_READY') {
           this.isNewAppVersionAvailable = true;
         }
-
-        if (versionEvent.type === 'NO_NEW_VERSION_DETECTED') {
-          this.isNewAppVersionAvailable = false;
-        }
       });
   }
 

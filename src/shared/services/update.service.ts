@@ -2,7 +2,7 @@ import { DestroyRef, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { from, Observable } from 'rxjs';
+import { distinctUntilChanged, from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,10 @@ export class UpdateService {
     this.updateAvailable$ = this.swUpdate.versionUpdates;
 
     this.swUpdate.versionUpdates
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        distinctUntilChanged(),
+      )
       .subscribe((versionEvent: VersionEvent) => {
         console.log({ versionEvent });
 
@@ -38,7 +41,6 @@ export class UpdateService {
             break;
           case 'NO_NEW_VERSION_DETECTED':
             // An event emitted when the service worker has checked the version of the app on the server and it didn't find a new version that it doesn't have already downloaded.
-            this.toast.info('No new version detected');
             break;
           default:
             this.toast.warning('Unknown version event');
