@@ -1,12 +1,13 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
+import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { routes } from './app.routes';
-import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHotToastConfig(),
     provideRouter(routes),
     provideServiceWorker(
       'ngsw-worker.js',
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
       }
-    )
+    ),
+    provideZoneChangeDetection({ eventCoalescing: true }),
   ]
 };

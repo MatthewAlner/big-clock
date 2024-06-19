@@ -5,8 +5,9 @@ import { RouterLink } from '@angular/router';
 import { VersionEvent } from '@angular/service-worker';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-import { faBullhorn, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faBullhorn, faCircleDown, faCog } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { UpdateService } from '../../../shared/services/update.service';
 import { ClockComponent } from './clock/clock.component';
 import { ScrollingMessageComponent } from './scrolling-message/scrolling-message.component';
@@ -31,9 +32,18 @@ export type mode = 'clock' | 'message';
 export class HomePageComponent implements OnInit {
 
   constructor(
-    private updateService: UpdateService,
     private destroyRef: DestroyRef,
+    private toast: HotToastService,
+    private updateService: UpdateService,
   ) { }
+
+  public mode: mode = 'clock';
+  public icons = {
+    faBullhorn,
+    faCircleDown,
+    faClock,
+    faCog,
+  };
 
   public isNewAppVersionAvailable = false;
 
@@ -46,36 +56,29 @@ export class HomePageComponent implements OnInit {
         switch (versionEvent.type) {
           case 'VERSION_READY':
             // An event emitted when a new version of the app is available.
-            console.log('New version is ready');
+            this.toast.info('New version is ready');
+            this.isNewAppVersionAvailable = true;
             break;
           case 'VERSION_INSTALLATION_FAILED':
             // An event emitted when the installation of a new version failed. It may be used for logging/ monitoring purposes.
-            console.log('New version failed to install');
-            this.isNewAppVersionAvailable = true;
+            this.toast.error('New version failed to install');
             break;
           case 'VERSION_DETECTED':
             // An event emitted when the service worker has detected a new version of the app on the server and is about to start downloading it.
-            console.log('New version detected');
+            this.toast.info('New version detected');
             break;
           case 'NO_NEW_VERSION_DETECTED':
             // An event emitted when the service worker has checked the version of the app on the server and it didn't find a new version that it doesn't have already downloaded.
-            console.log('No new version detected');
+            this.toast.info('No new version detected');
             this.isNewAppVersionAvailable = false;
             break;
           default:
-            console.log('Unknown version event');
+            this.toast.warning('Unknown version event');
             break;
         }
 
       });
   }
-
-  public mode: mode = 'clock';
-  public icons = {
-    faBullhorn,
-    faClock,
-    faCog,
-  };
 
   public onEnableClockModeClick(): void {
     this.mode = 'clock';

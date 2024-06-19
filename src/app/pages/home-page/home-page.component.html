@@ -1,12 +1,22 @@
 <div id="home-page">
   <button
-    class="btn mt-3 ms-3 settings-button"
-    [ngClass]="{ 'btn-outline-light': !isNewAppVersionAvailable, 'btn-outline-danger': isNewAppVersionAvailable }"
-    ngbTooltip="Settings"
+    *ngIf="!isNewAppVersionAvailable"
+    class="btn btn-outline-light mt-3 ms-3 settings-button"
+    [ngbTooltip]="'Settings'"
     [routerLink]="'/settings'"
   >
     <fa-icon [icon]="icons.faCog"></fa-icon>
   </button>
+
+  <button
+    *ngIf="isNewAppVersionAvailable"
+    class="btn btn-outline-warning mt-3 ms-3 update-button"
+    [ngbTooltip]="'Update App'"
+    [routerLink]="'/settings'"
+  >
+    <fa-icon [icon]="icons.faCircleDown"></fa-icon>
+  </button>
+
   <app-clock *ngIf="mode === 'clock'"/>
   <app-scrolling-message *ngIf="mode === 'message'"/>
   <div class="mode-toggle mb-3">
