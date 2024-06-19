@@ -6,6 +6,13 @@
       <textarea class="form-control" [class.is-invalid]="messageText?.invalid" id="message-text" rows="3" [formControlName]="FORM_KEYS.messageText"></textarea>
       <div class="invalid-feedback">Please enter a message</div>
     </div>
+
+    <div class="mb-3">
+      <label for="message-text" class="form-label">Time Offset</label>
+      <ngb-timepicker [formControlName]="FORM_KEYS.timeOffset" [seconds]="true" />
+      <div>{{timeOffset?.value | timeOffsetToString}}</div>
+    </div>
+
     <button type="button" class="btn" [ngClass]="{'btn-primary': form.valid, 'btn-light': form.invalid}" (click)="onSaveSettings()" [disabled]="form.invalid">Save</button>
   </form>
 
