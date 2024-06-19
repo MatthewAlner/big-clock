@@ -18,7 +18,7 @@
   </button>
 
   <app-clock *ngIf="mode === 'clock'"/>
-  <app-scrolling-message *ngIf="mode === 'message'"/>
+  <app-scrolling-message [messageText]="(settingsService.settings$ | async)?.message?.text ?? ''" *ngIf="mode === 'message'"/>
   <div class="mode-toggle mb-3">
     <button *ngIf="mode === 'message'" class="btn btn-outline-light" (click)="onEnableClockModeClick()">
       <fa-icon [icon]="icons.faClock"></fa-icon>

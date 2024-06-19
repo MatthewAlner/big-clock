@@ -7,6 +7,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { faBullhorn, faCircleDown, faCog } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { SettingsService } from '../../../shared/services/settings.service';
 import { UpdateService } from '../../../shared/services/update.service';
 import { ClockComponent } from './clock/clock.component';
 import { ScrollingMessageComponent } from './scrolling-message/scrolling-message.component';
@@ -33,6 +34,7 @@ export class HomePageComponent implements OnInit {
   constructor(
     private destroyRef: DestroyRef,
     private updateService: UpdateService,
+    public settingsService: SettingsService,
   ) { }
 
   public mode: mode = 'clock';

@@ -5,6 +5,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faArrowLeftLong, faCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateService } from '../../../shared/services/update.service';
+import { SettingsFormComponent } from './settings-form/settings-form.component';
 
 @Component({
   selector: 'app-settings-page',
@@ -13,7 +14,8 @@ import { UpdateService } from '../../../shared/services/update.service';
     CommonModule,
     FaIconComponent,
     NgbTooltip,
-    RouterLink
+    RouterLink,
+    SettingsFormComponent
   ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss'

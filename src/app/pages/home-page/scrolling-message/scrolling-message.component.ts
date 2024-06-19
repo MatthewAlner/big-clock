@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-scrolling-message',
@@ -11,5 +11,5 @@ import { Component } from '@angular/core';
   styleUrl: './scrolling-message.component.scss'
 })
 export class ScrollingMessageComponent {
-
+  messageText = input.required<string>();
 }
