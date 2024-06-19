@@ -8,23 +8,20 @@ import { IOffsetDuration } from '../../../../shared/services/settings.service';
 export class TimeOffsetToStringPipe implements PipeTransform {
 
   transform(offset: IOffsetDuration): string {
-    if (!offset) { return ``;}
+    if (!offset) { return ''; }
 
     const { hour, minute, second } = offset;
-    const durationString = [];
 
-    if ( hour > 0 || minute > 0 || second > 0 ) { durationString.push(`Offset:`); }
+    const parts = [
+      hour ? this.pluralize(hour, 'hour') : '',
+      minute ? this.pluralize(minute, 'minute') : '',
+      second ? this.pluralize(second, 'second') : '',
+    ].filter(Boolean);
 
-    if ( hour === 1) { durationString.push(`${hour} hour`); }
-    if ( hour > 1) { durationString.push(`${hour} hours`); }
-
-    if ( minute === 1) { durationString.push(`${minute} minute`); }
-    if ( minute > 1) { durationString.push(`${minute} minutes`); }
-
-    if ( second === 1) { durationString.push(`${second} second`); }
-    if ( second > 1) { durationString.push(`${second} seconds`); }
-
-    return durationString.join(` `);
+    return parts.length ? `Offset: ${parts.join(' ')}` : '';
   }
 
+  private pluralize(count: number, noun: string): string {
+    return `${count} ${noun}${count !== 1 ? 's' : ''}`;
+  }
 }
