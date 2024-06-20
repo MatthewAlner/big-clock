@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { map, Observable, shareReplay, timer } from 'rxjs';
+import { add } from 'date-fns/add';
+import { combineLatest, map, Observable, shareReplay, timer } from 'rxjs';
+import { SettingsService } from '../../../../shared/services/settings.service';
 
 @Component({
   selector: 'app-clock',
@@ -12,8 +14,30 @@ import { map, Observable, shareReplay, timer } from 'rxjs';
   styleUrl: './clock.component.scss'
 })
 export class ClockComponent {
-  public time$: Observable<Date> = timer(0, 1000).pipe(
-    map(tick => new Date()),
-    shareReplay(1)
-  );
+
+  public offsetTime$: Observable<Date>;
+
+  constructor(
+    private settingsService: SettingsService,
+  ) {
+    this.offsetTime$ = combineLatest({ time: this.time$, settings: this.settingsService.settings$ })
+      .pipe(
+        map(({time, settings}) => {
+          const { hour, minute, second} = settings.clock.offset;
+          return add(time, {
+            hours: hour,
+            minutes: minute,
+            seconds: second,
+          });
+        }),
+        shareReplay(1)
+      );
+  }
+
+  public time$: Observable<Date> = timer(0, 1000)
+    .pipe(
+      map(tick => new Date()),
+      shareReplay(1)
+    );
+
 }
