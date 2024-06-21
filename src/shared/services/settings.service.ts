@@ -28,7 +28,7 @@ export class SettingsService {
 
   public readonly DEFAULT_SETTINGS: ISettings = {
     message: {
-      text: `This needs to be way bigger and marquee scroll`,
+      text: `This is a default message. You can change it in the settings.`,
     },
     clock: {
       offset: {
