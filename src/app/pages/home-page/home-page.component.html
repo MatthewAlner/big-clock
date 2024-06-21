@@ -16,7 +16,12 @@
         <fa-icon [icon]="icons.faFastForward"></fa-icon>
       </button>
 
-      <button *ngIf="!clockSettings.offsetEnabled && (timeOffset.hour > 0 || timeOffset.minute > 0 || timeOffset.second > 0)" class="btn btn-outline-light mb-3 me-3 toggle-time-offset-button" ngbTooltip="Enable Time Offset" (click)="onSetTimeOffset(true)">
+      <button
+        *ngIf="!clockSettings.offsetEnabled && (timeOffset.hour !== 0 || timeOffset.minute !== 0 || timeOffset.second !== 0)"
+        class="btn btn-outline-light mb-3 me-3 toggle-time-offset-button"
+        ngbTooltip="Enable Time Offset"
+        (click)="onSetTimeOffset(true)"
+      >
         <fa-icon [icon]="icons.faFastForward"></fa-icon>
       </button>
     </ng-container>

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs';
-import { ISettings, SettingsService } from '../../../../shared/services/settings.service';
+import { IOffsetDuration, ISettings, SettingsService } from '../../../../shared/services/settings.service';
 import { DeepPartial } from '../../../../utils';
 import { TimeOffsetToStringPipe } from './time-offset-to-string.pipe';
 
@@ -52,12 +52,15 @@ export class SettingsFormComponent implements OnInit {
   onSaveSettings() {
     if (this.form?.invalid) { return; }
 
+    const { hour, minute, second } = this.form?.value[this.FORM_KEYS.timeOffset] as IOffsetDuration;
+
     const updatedSettings: DeepPartial<ISettings> = {
       message: {
         text: this.form?.value[this.FORM_KEYS.messageText],
       },
       clock: {
         offset: this.form?.value[this.FORM_KEYS.timeOffset],
+        offsetEnabled: hour !== 0 || minute !== 0 || second !== 0,
       }
     }
 

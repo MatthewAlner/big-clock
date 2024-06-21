@@ -49,6 +49,7 @@ export class SettingsService {
     private toast: HotToastService,
   ) { }
 
+  // TODO: add individual methods for settings where needed
   public saveSettings(updatedSettings: DeepPartial<ISettings>) {
     const existingSettings = this._settings$.value;
 
