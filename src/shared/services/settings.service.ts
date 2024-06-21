@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DeepPartial } from '../../utils';
 
 export interface ISettings {
   message: IMessageSettings;
@@ -13,6 +14,7 @@ export interface IMessageSettings {
 
 export interface IClockSettings {
   offset: IOffsetDuration;
+  offsetEnabled: boolean;
 }
 
 export interface IOffsetDuration {
@@ -36,6 +38,7 @@ export class SettingsService {
         minute: 0,
         second: 0,
       },
+      offsetEnabled: false,
     },
   }
 
@@ -46,9 +49,13 @@ export class SettingsService {
     private toast: HotToastService,
   ) { }
 
-  public saveSettings(updatedSettings: Partial<ISettings>) {
+  public saveSettings(updatedSettings: DeepPartial<ISettings>) {
     const existingSettings = this._settings$.value;
-    this._settings$.next({...existingSettings, ...updatedSettings});
+
+    const clock: IClockSettings = { ...existingSettings.clock, ...updatedSettings.clock };
+    const message: IMessageSettings = { ...existingSettings.message, ...updatedSettings.message };
+
+    this._settings$.next({ clock, message });
     this.toast.success(`Settings updated`);
   }
 }

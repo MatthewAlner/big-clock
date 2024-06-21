@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs';
 import { ISettings, SettingsService } from '../../../../shared/services/settings.service';
+import { DeepPartial } from '../../../../utils';
 import { TimeOffsetToStringPipe } from './time-offset-to-string.pipe';
 
 @Component({
@@ -51,7 +52,7 @@ export class SettingsFormComponent implements OnInit {
   onSaveSettings() {
     if (this.form?.invalid) { return; }
 
-    const updatedSettings: Partial<ISettings> = {
+    const updatedSettings: DeepPartial<ISettings> = {
       message: {
         text: this.form?.value[this.FORM_KEYS.messageText],
       },

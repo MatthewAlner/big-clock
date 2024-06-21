@@ -1,1 +1,1 @@
-<div class="clock jetbrains-mono-extra-bold">{{ offsetTime$ | async | date: 'HH:mm' }}</div>
+<div *ngIf="time()" class="clock jetbrains-mono-extra-bold">{{ time() | date: 'HH:mm' }}</div>

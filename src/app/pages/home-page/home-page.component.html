@@ -1,12 +1,24 @@
 <div id="home-page">
   <app-settings-button/>
 
-  <app-clock/>
+  <button class="btn btn-outline-light mode-toggle mb-3" [routerLink]="'/message'">
+    <fa-icon [icon]="icons.faBullhorn"></fa-icon>
+    <span class="ms-2">Message</span>
+  </button>
 
-  <div class="mode-toggle mb-3">
-    <button class="btn btn-outline-light" [routerLink]="'/message'">
-      <fa-icon [icon]="icons.faBullhorn"></fa-icon>
-      <span class="ms-2">Message</span>
-    </button>
-  </div>
+  <ng-container *ngIf="clockSettings$ | async as clockSettings">
+    <app-clock *ngIf="!clockSettings.offsetEnabled" [time]="time$ | async"/>
+    <app-clock *ngIf="clockSettings.offsetEnabled" [time]="offsetTime$ | async"/>
+
+    <ng-container *ngIf="clockSettings.offset as timeOffset">
+      <button *ngIf="clockSettings.offsetEnabled" class="btn btn-outline-success mb-3 me-3 toggle-time-offset-button" ngbTooltip="Disable Time Offset" (click)="onSetTimeOffset(false)">
+        <span class="me-2">{{timeOffset | timeOffsetToString}}</span>
+        <fa-icon [icon]="icons.faFastForward"></fa-icon>
+      </button>
+
+      <button *ngIf="!clockSettings.offsetEnabled && (timeOffset.hour > 0 || timeOffset.minute > 0 || timeOffset.second > 0)" class="btn btn-outline-light mb-3 me-3 toggle-time-offset-button" ngbTooltip="Enable Time Offset" (click)="onSetTimeOffset(true)">
+        <fa-icon [icon]="icons.faFastForward"></fa-icon>
+      </button>
+    </ng-container>
+  </ng-container>
 </div>
