@@ -1,30 +1,10 @@
 <div id="home-page">
-  <button
-    *ngIf="!isNewAppVersionAvailable"
-    class="btn btn-outline-light mt-3 ms-3 settings-button"
-    [ngbTooltip]="'Settings'"
-    [routerLink]="'/settings'"
-  >
-    <fa-icon [icon]="icons.faCog"></fa-icon>
-  </button>
+  <app-settings-button/>
 
-  <button
-    *ngIf="isNewAppVersionAvailable"
-    class="btn btn-outline-warning mt-3 ms-3 update-button"
-    [ngbTooltip]="'Update App'"
-    [routerLink]="'/settings'"
-  >
-    <fa-icon [icon]="icons.faCircleDown"></fa-icon>
-  </button>
+  <app-clock/>
 
-  <app-clock *ngIf="mode === 'clock'"/>
-  <app-scrolling-message [messageText]="(settingsService.settings$ | async)?.message?.text ?? ''" *ngIf="mode === 'message'"/>
   <div class="mode-toggle mb-3">
-    <button *ngIf="mode === 'message'" class="btn btn-outline-light" (click)="onEnableClockModeClick()">
-      <fa-icon [icon]="icons.faClock"></fa-icon>
-      <span class="ms-2">Clock</span>
-    </button>
-    <button *ngIf="mode === 'clock'" class="btn btn-outline-light" (click)="onEnableMessageModeClick()">
+    <button class="btn btn-outline-light" [routerLink]="'/message'">
       <fa-icon [icon]="icons.faBullhorn"></fa-icon>
       <span class="ms-2">Message</span>
     </button>

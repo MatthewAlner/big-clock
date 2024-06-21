@@ -1,0 +1,17 @@
+<button
+  *ngIf="!isNewAppVersionAvailable"
+  class="btn btn-outline-light mt-3 ms-3 settings-button"
+  [ngbTooltip]="'Settings'"
+  [routerLink]="'/settings'"
+>
+  <fa-icon [icon]="icons.faCog"></fa-icon>
+</button>
+
+<button
+  *ngIf="isNewAppVersionAvailable"
+  class="btn btn-outline-warning mt-3 ms-3 update-button"
+  [ngbTooltip]="'Update App'"
+  [routerLink]="'/settings'"
+>
+  <fa-icon [icon]="icons.faCircleDown"></fa-icon>
+</button>

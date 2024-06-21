@@ -1,0 +1,12 @@
+<div id="message-page">
+  <app-settings-button/>
+
+  <app-scrolling-message [messageText]="(settingsService.settings$ | async)?.message?.text ?? ''"/>
+
+  <div class="mode-toggle mb-3">
+    <button class="btn btn-outline-light" [routerLink]="'/home'">
+      <fa-icon [icon]="icons.faClock"></fa-icon>
+      <span class="ms-2">Clock</span>
+    </button>
+  </div>
+</div>
