@@ -18,7 +18,12 @@
     bottom: 0;
   }
 
-  .toggle-time-offset-button {
+  .bottom-right-button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+
     position: absolute;
     bottom: 0;
     right: 0;

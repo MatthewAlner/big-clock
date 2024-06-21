@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faBullhorn, faFastForward } from '@fortawesome/free-solid-svg-icons';
+import { faBullhorn, faFastForward, faMaximize, faMinimize } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { add } from 'date-fns/add';
 import { combineLatest, map, Observable, shareReplay, timer } from 'rxjs';
@@ -30,10 +30,13 @@ export class HomePageComponent {
 
   public offsetTime$: Observable<Date>;
   public clockSettings$ = this.settingsService.settings$.pipe(map(settings => settings.clock));
+  public isFullScreen = false;
 
   public icons = {
     faBullhorn,
     faFastForward,
+    faMaximize,
+    faMinimize,
   };
 
   constructor(
@@ -61,5 +64,15 @@ export class HomePageComponent {
 
   onSetTimeOffset(offsetEnabled: boolean) {
     this.settingsService.saveSettings({ clock: { offsetEnabled } })
+  }
+
+  public async onToggleMaximise() {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+      this.isFullScreen = true;
+    } else {
+      await document.exitFullscreen();
+      this.isFullScreen = false;
+    }
   }
 }

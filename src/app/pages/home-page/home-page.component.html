@@ -11,19 +11,46 @@
     <app-clock *ngIf="clockSettings.offsetEnabled" [time]="offsetTime$ | async"/>
 
     <ng-container *ngIf="clockSettings.offset as timeOffset">
-      <button *ngIf="clockSettings.offsetEnabled" class="btn btn-outline-success mb-3 me-3 toggle-time-offset-button" ngbTooltip="Disable Time Offset" (click)="onSetTimeOffset(false)">
-        <span class="me-2">{{timeOffset | timeOffsetToString}}</span>
-        <fa-icon [icon]="icons.faFastForward"></fa-icon>
-      </button>
+      <div class="mb-3 me-3 bottom-right-button-group">
+        <!-- Minimise and Maximise Buttons -->
+        <button
+          *ngIf="!isFullScreen"
+          class="btn btn-outline-light"
+          ngbTooltip="Full Screen"
+          (click)="onToggleMaximise()"
+        >
+          <fa-icon [icon]="icons.faMaximize"></fa-icon>
+        </button>
 
-      <button
-        *ngIf="!clockSettings.offsetEnabled && (timeOffset.hour !== 0 || timeOffset.minute !== 0 || timeOffset.second !== 0)"
-        class="btn btn-outline-light mb-3 me-3 toggle-time-offset-button"
-        ngbTooltip="Enable Time Offset"
-        (click)="onSetTimeOffset(true)"
-      >
-        <fa-icon [icon]="icons.faFastForward"></fa-icon>
-      </button>
+        <button
+          *ngIf="isFullScreen"
+          class="btn btn-outline-light"
+          ngbTooltip="Exit Full Screen"
+          (click)="onToggleMaximise()"
+        >
+          <fa-icon [icon]="icons.faMinimize"></fa-icon>
+        </button>
+
+        <!-- Time Offset Buttons -->
+        <button
+          *ngIf="clockSettings.offsetEnabled"
+          class="btn btn-outline-success toggle-time-offset-button"
+          ngbTooltip="Disable Time Offset"
+          (click)="onSetTimeOffset(false)"
+        >
+          <span class="me-2">{{timeOffset | timeOffsetToString}}</span>
+          <fa-icon [icon]="icons.faFastForward"></fa-icon>
+        </button>
+
+        <button
+          *ngIf="!clockSettings.offsetEnabled && (timeOffset.hour !== 0 || timeOffset.minute !== 0 || timeOffset.second !== 0)"
+          class="btn btn-outline-light toggle-time-offset-button"
+          ngbTooltip="Enable Time Offset"
+          (click)="onSetTimeOffset(true)"
+        >
+          <fa-icon [icon]="icons.faFastForward"></fa-icon>
+        </button>
+      </div>
     </ng-container>
   </ng-container>
 </div>
