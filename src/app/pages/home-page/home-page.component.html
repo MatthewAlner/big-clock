@@ -12,6 +12,10 @@
 
     <ng-container *ngIf="clockSettings.offset as timeOffset">
       <div class="mb-3 me-3 bottom-right-button-group">
+        <!-- Screen lock status -->
+        <fa-icon *ngIf="isWakeLockEnabled()" ngbTooltip="Screen Lock Enabled" [icon]="icons.faLock"></fa-icon>
+        <fa-icon *ngIf="!isWakeLockEnabled()" ngbTooltip="Screen Lock Failed" [icon]="icons.faLockOpen"></fa-icon>
+
         <!-- Minimise and Maximise Buttons -->
         <button
           *ngIf="!isFullScreen"

@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faBullhorn, faFastForward, faMaximize, faMinimize } from '@fortawesome/free-solid-svg-icons';
+import { faBullhorn, faFastForward, faLock, faLockOpen, faMaximize, faMinimize } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { add } from 'date-fns/add';
 import { combineLatest, map, Observable, shareReplay, timer } from 'rxjs';
 import { SettingsService } from '../../../shared/services/settings.service';
+import { WakeLockService } from '../../../shared/services/wake-lock.service';
 import { SettingsButtonComponent } from '../../../shared/settings-button/settings-button.component';
 import { TimeOffsetToStringPipe } from '../settings-page/settings-form/time-offset-to-string.pipe';
 import { ClockComponent } from './clock/clock.component';
@@ -31,17 +32,23 @@ export class HomePageComponent {
   public offsetTime$: Observable<Date>;
   public clockSettings$ = this.settingsService.settings$.pipe(map(settings => settings.clock));
   public isFullScreen = false;
+  public isWakeLockEnabled: Signal<boolean>;
 
   public icons = {
     faBullhorn,
     faFastForward,
+    faLock,
+    faLockOpen,
     faMaximize,
     faMinimize,
   };
 
   constructor(
+    private wakeLockService: WakeLockService,
     public settingsService: SettingsService,
   ) {
+    this.isWakeLockEnabled = this.wakeLockService.isWakeLockEnabled
+
     this.offsetTime$ = combineLatest({ time: this.time$, settings: this.settingsService.settings$ })
       .pipe(
         map(({time, settings}) => {
