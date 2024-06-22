@@ -10,11 +10,16 @@ export class WakeLockService {
   public isWakeLockEnabled = this._isWakeLockEnabled.asReadonly();
 
   constructor() {
+    this.init();
+  }
+
+  public async init() {
     if ('WakeLock' in window && 'request' in window.WakeLock) {
       this.requestWakeLock();
       this.setupVisibilityChangeListener();
     } else if ('wakeLock' in navigator && 'request' in navigator.wakeLock) {
-      // alt way to request wake lock
+      await this.requestWakeLockAlt();
+      this.setupVisibilityChangeListenerAlt();
     } else {
       console.error('Wake Lock API not supported.');
     }
@@ -56,5 +61,41 @@ export class WakeLockService {
   private setupVisibilityChangeListener() {
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('fullscreenchange', this.handleVisibilityChange);
+  }
+
+  public async toggleWakeLockAlt() {
+    if (this._isWakeLockEnabled()) {
+      await this.requestWakeLockAlt();
+    } else {
+      this.wakeLock.release();
+      this.wakeLock = null;
+    }
+  }
+
+  private async requestWakeLockAlt() {
+    try {
+      this.wakeLock = await navigator.wakeLock.request('screen');
+      this.wakeLock.addEventListener('release', (e: any) => {
+        console.log(e);
+        this._isWakeLockEnabled.set(false);
+        console.log('Wake Lock was released');
+      });
+      this._isWakeLockEnabled.set(true);
+      console.log('Wake Lock is active');
+    } catch (e: any) {
+      this._isWakeLockEnabled.set(false);
+      console.error(`${e.name}, ${e.message}`);
+    }
+  }
+
+  private async handleVisibilityChangeAlt() {
+    if (this.wakeLock !== null && document.visibilityState === 'visible') {
+      await this.requestWakeLockAlt();
+    }
+  }
+
+  private setupVisibilityChangeListenerAlt() {
+    document.addEventListener('visibilitychange', this.handleVisibilityChangeAlt);
+    document.addEventListener('fullscreenchange', this.handleVisibilityChangeAlt);
   }
 }
