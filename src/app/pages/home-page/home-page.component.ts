@@ -5,7 +5,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBullhorn, faFastForward, faLock, faLockOpen, faMaximize, faMinimize } from '@fortawesome/free-solid-svg-icons';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { add } from 'date-fns/add';
-import { combineLatest, map, Observable, shareReplay, timer } from 'rxjs';
+import { Observable, combineLatest, map, shareReplay, timer } from 'rxjs';
 import { SettingsService } from '../../../shared/services/settings.service';
 import { WakeLockService } from '../../../shared/services/wake-lock.service';
 import { SettingsButtonComponent } from '../../../shared/settings-button/settings-button.component';
@@ -13,7 +13,7 @@ import { TimeOffsetToStringPipe } from '../settings-page/settings-form/time-offs
 import { ClockComponent } from './clock/clock.component';
 
 @Component({
-  selector: 'app-home-page',
+  selector: `app-home-page`,
   standalone: true,
   imports: [
     ClockComponent,
@@ -24,8 +24,8 @@ import { ClockComponent } from './clock/clock.component';
     SettingsButtonComponent,
     TimeOffsetToStringPipe,
   ],
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  templateUrl: `./home-page.component.html`,
+  styleUrl: `./home-page.component.scss`,
 })
 export class HomePageComponent {
 
@@ -43,37 +43,37 @@ export class HomePageComponent {
     faMinimize,
   };
 
-  constructor(
+  constructor (
     private wakeLockService: WakeLockService,
     public settingsService: SettingsService,
   ) {
-    this.isWakeLockEnabled = this.wakeLockService.isWakeLockEnabled
+    this.isWakeLockEnabled = this.wakeLockService.isWakeLockEnabled;
 
     this.offsetTime$ = combineLatest({ time: this.time$, settings: this.settingsService.settings$ })
       .pipe(
-        map(({time, settings}) => {
-          const { hour, minute, second} = settings.clock.offset;
+        map(({ time, settings }) => {
+          const { hour, minute, second } = settings.clock.offset;
           return add(time, {
             hours: hour,
             minutes: minute,
             seconds: second,
           });
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
   }
 
   public time$: Observable<Date> = timer(0, 1000)
     .pipe(
       map(tick => new Date()),
-      shareReplay(1)
+      shareReplay(1),
     );
 
-  onSetTimeOffset(offsetEnabled: boolean) {
-    this.settingsService.saveSettings({ clock: { offsetEnabled } })
+  onSetTimeOffset (offsetEnabled: boolean) {
+    this.settingsService.saveSettings({ clock: { offsetEnabled } });
   }
 
-  public async onToggleMaximise() {
+  public async onToggleMaximise () {
     if (!document.fullscreenElement) {
       await document.documentElement.requestFullscreen();
       this.isFullScreen = true;

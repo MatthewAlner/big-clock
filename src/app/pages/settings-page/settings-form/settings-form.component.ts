@@ -8,16 +8,16 @@ import { DeepPartial } from '../../../../utils';
 import { TimeOffsetToStringPipe } from './time-offset-to-string.pipe';
 
 @Component({
-  selector: 'app-settings-form',
+  selector: `app-settings-form`,
   standalone: true,
   imports: [
     CommonModule,
     NgbTimepicker,
     ReactiveFormsModule,
-    TimeOffsetToStringPipe
+    TimeOffsetToStringPipe,
   ],
-  templateUrl: './settings-form.component.html',
-  styleUrl: './settings-form.component.scss'
+  templateUrl: `./settings-form.component.html`,
+  styleUrl: `./settings-form.component.scss`,
 })
 export class SettingsFormComponent implements OnInit {
 
@@ -27,42 +27,42 @@ export class SettingsFormComponent implements OnInit {
   };
 
   public form: FormGroup | undefined;
-  public get messageText() { return this.form ? this.form.get(this.FORM_KEYS.messageText) as FormControl : null; }
-  public get timeOffset() { return this.form ? this.form.get(this.FORM_KEYS.timeOffset) as FormControl : null; }
+  public get messageText () { return this.form ? this.form.get(this.FORM_KEYS.messageText) as FormControl : null; }
+  public get timeOffset () { return this.form ? this.form.get(this.FORM_KEYS.timeOffset) as FormControl : null; }
 
-  constructor(
+  constructor (
     private formBuilder: FormBuilder,
     private settingsService: SettingsService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.settingsService.settings$.pipe(take(1))
       .subscribe((settings) => {
         this.buildForm(settings);
-    });
+      });
   }
 
-  private buildForm(settings: ISettings) {
+  private buildForm (settings: ISettings) {
     this.form = this.formBuilder.group({
       [ this.FORM_KEYS.messageText ]: [ settings?.message?.text, Validators.required ],
       [ this.FORM_KEYS.timeOffset ]: [ settings?.clock?.offset, Validators.required ],
     });
   }
 
-  onSaveSettings() {
+  onSaveSettings () {
     if (this.form?.invalid) { return; }
 
-    const { hour, minute, second } = this.form?.value[this.FORM_KEYS.timeOffset] as IOffsetDuration;
+    const { hour, minute, second } = this.form?.value[ this.FORM_KEYS.timeOffset ] as IOffsetDuration;
 
     const updatedSettings: DeepPartial<ISettings> = {
       message: {
-        text: this.form?.value[this.FORM_KEYS.messageText],
+        text: this.form?.value[ this.FORM_KEYS.messageText ],
       },
       clock: {
-        offset: this.form?.value[this.FORM_KEYS.timeOffset],
+        offset: this.form?.value[ this.FORM_KEYS.timeOffset ],
         offsetEnabled: hour !== 0 || minute !== 0 || second !== 0,
-      }
-    }
+      },
+    };
 
     this.settingsService.saveSettings(updatedSettings);
   }

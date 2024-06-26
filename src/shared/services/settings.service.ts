@@ -24,7 +24,7 @@ export interface IOffsetDuration {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: `root`,
 })
 export class SettingsService {
 
@@ -40,17 +40,17 @@ export class SettingsService {
       },
       offsetEnabled: false,
     },
-  }
+  };
 
   private _settings$: BehaviorSubject<ISettings> = new BehaviorSubject<ISettings>(this.DEFAULT_SETTINGS);
   public settings$: Observable<ISettings> = this._settings$.asObservable();
 
-  constructor(
+  constructor (
     private toast: HotToastService,
   ) { }
 
   // TODO: add individual methods for settings where needed
-  public saveSettings(updatedSettings: DeepPartial<ISettings>) {
+  public saveSettings (updatedSettings: DeepPartial<ISettings>) {
     const existingSettings = this._settings$.value;
 
     const clock: IClockSettings = { ...existingSettings.clock, ...updatedSettings.clock };

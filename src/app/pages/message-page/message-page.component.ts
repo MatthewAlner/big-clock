@@ -8,7 +8,7 @@ import { SettingsButtonComponent } from '../../../shared/settings-button/setting
 import { ScrollingMessageComponent } from '../home-page/scrolling-message/scrolling-message.component';
 
 @Component({
-  selector: 'app-message-page',
+  selector: `app-message-page`,
   standalone: true,
   imports: [
     CommonModule,
@@ -17,12 +17,12 @@ import { ScrollingMessageComponent } from '../home-page/scrolling-message/scroll
     ScrollingMessageComponent,
     SettingsButtonComponent,
   ],
-  templateUrl: './message-page.component.html',
-  styleUrl: './message-page.component.scss'
+  templateUrl: `./message-page.component.html`,
+  styleUrl: `./message-page.component.scss`,
 })
 export class MessagePageComponent {
 
-  constructor(
+  constructor (
     public settingsService: SettingsService,
   ) { }
 

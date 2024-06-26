@@ -8,21 +8,21 @@ import { UpdateService } from '../../../shared/services/update.service';
 import { SettingsFormComponent } from './settings-form/settings-form.component';
 
 @Component({
-  selector: 'app-settings-page',
+  selector: `app-settings-page`,
   standalone: true,
   imports: [
     CommonModule,
     FaIconComponent,
     NgbTooltip,
     RouterLink,
-    SettingsFormComponent
+    SettingsFormComponent,
   ],
-  templateUrl: './settings-page.component.html',
-  styleUrl: './settings-page.component.scss'
+  templateUrl: `./settings-page.component.html`,
+  styleUrl: `./settings-page.component.scss`,
 })
 export class SettingsPageComponent {
 
-  constructor(
+  constructor (
     private updateService: UpdateService,
   ) { }
 
@@ -31,17 +31,17 @@ export class SettingsPageComponent {
     faCircleDown,
   };
 
-  onUpdateApp() {
-    const serviceWorkerEnabled= this.updateService.serviceWorkerEnabled();
+  onUpdateApp () {
+    const serviceWorkerEnabled = this.updateService.serviceWorkerEnabled();
 
     if (serviceWorkerEnabled) {
       this.forceUpdate();
     } else {
-      console.log('Service worker is not enabled');
+      console.log(`Service worker is not enabled`);
     }
   }
 
-  private forceUpdate() {
+  private forceUpdate () {
     this.updateService.forceUpdate()
       .subscribe({
         next: () => {
@@ -51,8 +51,8 @@ export class SettingsPageComponent {
           console.error(error);
         },
         complete: () => {
-          console.log('Update completed');
-        }
+          console.log(`Update completed`);
+        },
       });
   }
 }

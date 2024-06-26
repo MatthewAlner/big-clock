@@ -10,12 +10,12 @@ export const appConfig: ApplicationConfig = {
     provideHotToastConfig(),
     provideRouter(routes),
     provideServiceWorker(
-      'ngsw-worker.js',
+      `ngsw-worker.js`,
       {
         enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
-      }
+        registrationStrategy: `registerWhenStable:30000`,
+      },
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
-  ]
+  ],
 };

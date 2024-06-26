@@ -9,7 +9,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateService } from '../services/update.service';
 
 @Component({
-  selector: 'app-settings-button',
+  selector: `app-settings-button`,
   standalone: true,
   imports: [
     CommonModule,
@@ -17,12 +17,12 @@ import { UpdateService } from '../services/update.service';
     NgbTooltip,
     RouterLink,
   ],
-  templateUrl: './settings-button.component.html',
-  styleUrl: './settings-button.component.scss'
+  templateUrl: `./settings-button.component.html`,
+  styleUrl: `./settings-button.component.scss`,
 })
 export class SettingsButtonComponent implements OnInit {
 
-  constructor(
+  constructor (
     private destroyRef: DestroyRef,
     private updateService: UpdateService,
   ) { }
@@ -33,11 +33,11 @@ export class SettingsButtonComponent implements OnInit {
     faCog,
   };
 
-  public ngOnInit(): void {
+  public ngOnInit (): void {
     this.updateService.updateAvailable$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((versionEvent: VersionEvent) => {
-        if (versionEvent.type === 'VERSION_READY') {
+        if (versionEvent.type === `VERSION_READY`) {
           this.isNewAppVersionAvailable = true;
         }
       });
